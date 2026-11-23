@@ -1,0 +1,29 @@
+/* Map Starlight's variables onto the shared Cactus Cove tokens. */
+@import '@cactus-cove/theme/tokens.css';
+
+:root,
+::backdrop,
+:root[data-theme='light'] {
+  --sl-font: var(--cc-font-body);
+  --sl-color-accent-low: var(--cc-sage);
+  --sl-color-accent: var(--cc-adobe);
+  --sl-color-accent-high: var(--cc-adobe-dark);
+  --sl-color-white: var(--cc-ink);
+  --sl-color-gray-1: var(--cc-ink);
+  --sl-color-gray-2: var(--cc-ink-soft);
+  --sl-color-gray-3: var(--cc-muted);
+  --sl-color-gray-4: var(--cc-dash);
+  --sl-color-gray-5: var(--cc-line);
+  --sl-color-gray-6: var(--cc-paper);
+  --sl-color-gray-7: var(--cc-paper-bright);
+  --sl-color-black: var(--cc-sand);
+  --sl-color-bg-nav: var(--cc-sand);
+  --sl-color-bg-sidebar: var(--cc-sand);
+  --sl-color-hairline: var(--cc-dash);
+}
+
+h1,
+.site-title {
+  font-family: var(--cc-font-display);
+  font-weight: 400;
+}

@@ -1,0 +1,18 @@
+---
+import { getEntry } from 'astro:content';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+import { topics } from '../topics.mjs';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const pages = await Promise.all(
+  topics.map(async (slug) => {
+    const entry = await getEntry('docs', slug);
+    if (!entry) throw new Error(`Guide topic "${slug}" has no page in src/content/docs`);
+    return { slug, title: entry.data.title, description: entry.data.description };
+  })
+);
+---
+
+<CardGrid>
+  {pages.map((p) => <LinkCard title={p.title} description={p.description} href={`${base}${p.slug}/`} />)}
+</CardGrid>
