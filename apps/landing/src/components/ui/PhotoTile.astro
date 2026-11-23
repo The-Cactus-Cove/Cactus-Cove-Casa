@@ -1,0 +1,46 @@
+---
+import type { Photo } from '../../content/site';
+
+/** A photo, or a labelled placeholder until a real one is added in site.ts. */
+interface Props {
+  photo: Photo;
+  class?: string;
+  eager?: boolean;
+}
+const { photo, class: className, eager = false } = Astro.props;
+---
+
+{
+  photo.src ? (
+    <img
+      class:list={['tile', className]}
+      src={photo.src}
+      alt={photo.alt}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+    />
+  ) : (
+    <div class:list={['tile', 'placeholder', className]} role="img" aria-label={`Photo coming soon: ${photo.alt}`}>
+      [Photo — {photo.alt.toLowerCase()}]
+    </div>
+  )
+}
+
+<style>
+  .tile {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    text-align: center;
+    background: #D9C3A0;
+    color: #4E3C2E;
+    font-size: 14px;
+  }
+</style>

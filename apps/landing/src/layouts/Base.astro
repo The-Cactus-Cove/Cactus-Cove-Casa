@@ -1,12 +1,15 @@
 ---
 import '@cactus-cove/theme/base.css';
+import '../styles/landing.css';
+import { site } from '../content/site';
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = 'A desert rental in Arizona.' } = Astro.props;
+const { title, description = site.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -14,9 +17,15 @@ const { title, description = 'A desert rental in Arizona.' } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {site.hero.photo.src && <meta property="og:image" content={new URL(site.hero.photo.src, Astro.site)} />}
   </head>
   <body>
     <slot />

@@ -1,0 +1,58 @@
+---
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import Eyebrow from '../ui/Eyebrow.astro';
+import GitHub from '../../icons/github.svg';
+import { site } from '../../content/site';
+
+const { eyebrow, title, body } = site.underTheHood;
+---
+
+<Container id="nerds" class="section">
+  <div class="panel">
+    <div class="copy">
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h2>{title}</h2>
+      <p>{body}</p>
+    </div>
+    <Button href={site.githubUrl} variant="light" size="lg">
+      <GitHub aria-hidden="true" />
+      View on GitHub
+    </Button>
+  </div>
+</Container>
+
+<style>
+  .panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 40px;
+    border-radius: var(--cc-radius-lg);
+    background: var(--cc-saguaro-deep);
+    color: #F1E8D6;
+  }
+  .copy {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 620px;
+  }
+  h2 {
+    margin: 0;
+    font-size: clamp(28px, 4vw, 34px);
+    color: var(--cc-paper);
+  }
+  p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #DCCFB8;
+  }
+
+  @media (max-width: 640px) {
+    .panel { padding: 28px 20px; }
+  }
+</style>

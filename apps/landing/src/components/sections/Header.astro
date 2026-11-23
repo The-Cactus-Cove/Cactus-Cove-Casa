@@ -1,0 +1,49 @@
+---
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import Logo from '../Logo.astro';
+import { nav } from '../../content/site';
+---
+
+<header class="header">
+  <Container as="div" class="bar">
+    <a href="#top" class="home" aria-label="Cactus Cove, back to top"><Logo /></a>
+    <nav aria-label="Main">
+      <ul>
+        {nav.map((item) => <li class="link"><a href={item.href}>{item.label}</a></li>)}
+        <li><Button href="#book">Book your stay</Button></li>
+      </ul>
+    </nav>
+  </Container>
+</header>
+
+<style>
+  .header { border-bottom: 2px dashed var(--cc-dash); }
+  .header :global(.bar) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 18px;
+  }
+  .home { text-decoration: none; }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-weight: 500;
+    font-size: 15px;
+  }
+  .link a { color: var(--cc-ink); text-decoration: none; }
+  .link a:hover { color: var(--cc-adobe); }
+
+  /* Phones: keep the logo and the booking button; section links are a scroll away. */
+  @media (max-width: 640px) {
+    .link { display: none; }
+  }
+</style>

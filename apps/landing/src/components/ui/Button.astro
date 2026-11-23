@@ -1,0 +1,35 @@
+---
+/** Pill-shaped link button. */
+interface Props {
+  href: string;
+  variant?: 'primary' | 'light';
+  size?: 'md' | 'lg';
+}
+const { href, variant = 'primary', size = 'md' } = Astro.props;
+const external = /^https?:\/\//.test(href);
+---
+
+<a
+  href={href}
+  class:list={['button', variant, size]}
+  {...external && { target: '_blank', rel: 'noopener' }}
+><slot /></a>
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: var(--cc-tap);
+    border-radius: var(--cc-radius-pill);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .md { padding: 12px 20px; font-size: 15px; }
+  .lg { padding: 16px 26px; font-size: 16px; }
+  .primary { background: var(--cc-adobe); color: var(--cc-paper); }
+  .primary:hover { background: var(--cc-adobe-dark); color: var(--cc-paper); }
+  .light { background: var(--cc-paper); color: var(--cc-ink); }
+  .light:hover { background: var(--cc-sand); color: var(--cc-ink); }
+</style>

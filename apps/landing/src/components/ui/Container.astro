@@ -1,0 +1,22 @@
+---
+/** Centered 1180px column with the page gutter. */
+interface Props {
+  as?: 'section' | 'div' | 'header' | 'footer';
+  id?: string;
+  class?: string;
+}
+const { as: Tag = 'section', id, class: className } = Astro.props;
+---
+
+<Tag id={id} class:list={['container', className]}><slot /></Tag>
+
+<style>
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: 24px;
+  }
+  @media (max-width: 640px) {
+    .container { padding-inline: 16px; }
+  }
+</style>

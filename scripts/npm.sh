@@ -16,5 +16,5 @@ case "$CMD" in
   *) BIN=npm; set -- "$CMD" "$@" ;;
 esac
 exec docker run --rm $TTY $PORTS -u "$(id -u):$(id -g)" \
-  -e HOME=/tmp -e npm_config_update_notifier=false \
+  -e HOME=/tmp -e npm_config_update_notifier=false -e ASTRO_TELEMETRY_DISABLED=1 \
   -v "$ROOT":/repo -w /repo node:24-alpine "$BIN" "$@"

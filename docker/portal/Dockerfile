@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 # Build context: repository root. Builds the portal and the house guide it serves.
 FROM node:24-alpine AS deps
+ENV ASTRO_TELEMETRY_DISABLED=1
 WORKDIR /repo
 COPY package.json package-lock.json ./
 COPY packages/theme/package.json packages/theme/

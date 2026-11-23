@@ -1,0 +1,29 @@
+---
+import Mark from '@cactus-cove/theme/logo.svg';
+import { site } from '../content/site';
+
+interface Props {
+  size?: 'md' | 'sm';
+}
+const { size = 'md' } = Astro.props;
+---
+
+<span class:list={['logo', size]}>
+  {size === 'md' && <Mark width={34} height={34} aria-hidden="true" />}
+  <span class="name">{site.name}</span>
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--cc-ink);
+  }
+  .name {
+    font-family: var(--cc-font-display);
+    letter-spacing: 0.5px;
+  }
+  .md .name { font-size: 24px; }
+  .sm .name { font-size: 18px; }
+</style>

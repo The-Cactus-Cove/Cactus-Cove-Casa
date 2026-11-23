@@ -1,18 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
+import Header from '../components/sections/Header.astro';
+import Hero from '../components/sections/Hero.astro';
+import QuickFacts from '../components/sections/QuickFacts.astro';
+import Photos from '../components/sections/Photos.astro';
+import About from '../components/sections/About.astro';
+import UnderTheHood from '../components/sections/UnderTheHood.astro';
+import Footer from '../components/sections/Footer.astro';
+import { site } from '../content/site';
 ---
 
-<Base title="Cactus Cove">
-  <main class="placeholder">
-    <h1>Cactus Cove</h1>
-    <p>Landing page coming soon.</p>
+<Base title={`${site.name} · ${site.location}`}>
+  <Header />
+  <main>
+    <Hero />
+    <QuickFacts />
+    <Photos />
+    <About />
+    <UnderTheHood />
   </main>
+  <Footer />
 </Base>
-
-<style>
-  .placeholder {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 80px 24px;
-  }
-</style>

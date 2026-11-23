@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 # Build context: repository root.
 FROM node:24-alpine AS build
+ENV ASTRO_TELEMETRY_DISABLED=1
 WORKDIR /repo
 COPY package.json package-lock.json ./
 COPY packages/theme/package.json packages/theme/

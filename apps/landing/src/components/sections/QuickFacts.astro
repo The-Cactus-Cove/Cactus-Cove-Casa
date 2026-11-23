@@ -1,0 +1,49 @@
+---
+import Container from '../ui/Container.astro';
+import Card from '../ui/Card.astro';
+import { site } from '../../content/site';
+---
+
+<Container class="facts-wrap">
+  <ul class="facts">
+    {
+      site.facts.map((fact) => (
+        <li>
+          <Card class="fact">
+            <span class="value">{fact.value}</span>
+            <span class="label">{fact.label}</span>
+          </Card>
+        </li>
+      ))
+    }
+  </ul>
+</Container>
+
+<style>
+  :global(.facts-wrap) { padding-top: 28px; }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .facts :global(.fact) {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: 100%;
+    padding: 20px;
+  }
+  .value {
+    font-family: var(--cc-font-display);
+    font-size: 28px;
+    color: var(--cc-saguaro);
+  }
+  .label { font-size: 14px; color: var(--cc-muted); }
+
+  @media (max-width: 900px) {
+    .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

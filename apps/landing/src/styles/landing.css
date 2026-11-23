@@ -1,0 +1,19 @@
+/* Page-level rhythm shared by the landing page sections. */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+.section {
+  padding-top: 80px;
+  scroll-margin-top: 16px;
+}
+.section h2 {
+  margin: 0;
+  font-size: clamp(32px, 5vw, 40px);
+  line-height: 1.15;
+}
+
+@media (max-width: 640px) {
+  .section { padding-top: 56px; }
+}

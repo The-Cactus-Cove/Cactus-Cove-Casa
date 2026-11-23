@@ -1,0 +1,100 @@
+---
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import Eyebrow from '../ui/Eyebrow.astro';
+import PhotoTile from '../ui/PhotoTile.astro';
+import Saguaro from '../../icons/saguaro.svg';
+import { site } from '../../content/site';
+---
+
+<Container id="top" class="hero-wrap">
+  <div class="hero">
+    <PhotoTile photo={site.hero.photo} class="backdrop" eager />
+    <div class="shade" aria-hidden="true"></div>
+    <Saguaro class="saguaro" aria-hidden="true" />
+    <div class="copy">
+      <Eyebrow>✦ {site.location} ✦</Eyebrow>
+      <h1>{site.hero.title}</h1>
+      <p>{site.hero.blurb}</p>
+      <div id="book" class="actions">
+        <Button href={site.booking.airbnb} size="lg">Book on Airbnb</Button>
+        <Button href={site.booking.vrbo} size="lg" variant="light">Book on Vrbo</Button>
+      </div>
+    </div>
+  </div>
+</Container>
+
+<style>
+  :global(.hero-wrap) { padding-top: 32px; }
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 560px;
+    border-radius: var(--cc-radius-lg);
+    overflow: hidden;
+    background: var(--cc-dusk);
+  }
+  .hero :global(.backdrop) {
+    position: absolute;
+    inset: 0;
+  }
+  .hero :global(.backdrop.placeholder) {
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 24px 28px;
+    font-size: 12px;
+    background: var(--cc-dusk);
+    color: #C9AE8C;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  /* Keeps the copy readable over a real photo. */
+  .shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(43 33 26 / 0.75), rgb(43 33 26 / 0) 70%);
+  }
+  .hero :global(.saguaro) {
+    position: absolute;
+    right: 48px;
+    bottom: 0;
+    color: var(--cc-gold);
+  }
+  .copy {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 640px;
+    padding: 48px;
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(40px, 7vw, 64px);
+    line-height: 1.05;
+    color: var(--cc-paper);
+  }
+  p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.55;
+    color: #F1E2C8;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 6px;
+    scroll-margin-top: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .hero :global(.saguaro) { display: none; }
+  }
+  @media (max-width: 640px) {
+    :global(.hero-wrap) { padding-top: 16px; }
+    .hero { min-height: 520px; }
+    .copy { padding: 28px 20px; }
+  }
+</style>

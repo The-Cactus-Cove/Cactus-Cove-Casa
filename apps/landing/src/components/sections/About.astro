@@ -1,0 +1,71 @@
+---
+import Container from '../ui/Container.astro';
+import Card from '../ui/Card.astro';
+import Eyebrow from '../ui/Eyebrow.astro';
+import { site } from '../../content/site';
+
+const { title, paragraphs, amenities } = site.about;
+---
+
+<Container id="about" class="section">
+  <div class="layout">
+    <div class="story">
+      <h2>{title}</h2>
+      {paragraphs.map((text) => <p>{text}</p>)}
+    </div>
+    <Card class="amenities">
+      <h3><Eyebrow tone="muted">What's here</Eyebrow></h3>
+      <ul>
+        {amenities.map((item) => <li>{item}</li>)}
+      </ul>
+    </Card>
+  </div>
+</Container>
+
+<style>
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  .story {
+    flex: 1 1 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--cc-ink-soft);
+  }
+  .layout :global(.amenities) {
+    flex: 1 1 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 28px;
+    border-radius: 20px;
+  }
+  h3 { margin: 0; }
+  ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 16px;
+  }
+  li::before {
+    content: '✦ ';
+    color: var(--cc-saguaro);
+  }
+
+  @media (max-width: 640px) {
+    .layout { gap: 24px; }
+    .story, .layout :global(.amenities) { flex-basis: 100%; }
+    .layout :global(.amenities) { padding: 20px; }
+  }
+</style>

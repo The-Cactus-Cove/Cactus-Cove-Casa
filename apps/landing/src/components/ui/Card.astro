@@ -1,0 +1,17 @@
+---
+/** Paper card with the sand border. */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<div class:list={['card', className]}><slot /></div>
+
+<style>
+  .card {
+    background: var(--cc-paper);
+    border: 1.5px solid var(--cc-line);
+    border-radius: var(--cc-radius);
+  }
+</style>
