@@ -35,7 +35,7 @@
 </script>
 
 <Card emphasis gap={12} label="Checking out">
-  <h2>Heading out?</h2>
+  <h2>Checking out today?</h2>
   <ul>
     {#each checklist as item (item.label)}
       <li class:warn={!item.ok}>

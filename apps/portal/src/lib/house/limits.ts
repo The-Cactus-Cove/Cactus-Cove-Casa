@@ -9,3 +9,5 @@ export const TONIGHT_HOLD_TIME = '22:00';
 /** Arrival temperature is applied this long before check-in. */
 export const PRECONDITION_HOURS = 3;
 export const TV_KEYS = ['up', 'down', 'left', 'right', 'select', 'back', 'home', 'play', 'volume_up', 'volume_down', 'volume_mute'] as const;
+/** Default away temperature for "Heading out". */
+export const DEFAULT_AWAY_SETPOINT = 78;

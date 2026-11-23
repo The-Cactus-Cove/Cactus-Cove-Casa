@@ -9,7 +9,7 @@
   import DeviceHeader from '../ui/DeviceHeader.svelte';
   import Status from '../ui/Status.svelte';
 
-  let { lock, live }: { lock: LockState; live: boolean } = $props();
+  let { lock }: { lock: LockState } = $props();
   const portal = getPortal();
   const lower = $derived(lock.name.toLowerCase());
 
@@ -50,9 +50,7 @@
       <Status tone="warn">Unlocked · locks again after the door closes</Status>
     {/if}
   </DeviceHeader>
-  {#if !live}
-    <Button disabled>Available at check-in</Button>
-  {:else if lock.locked}
+  {#if lock.locked}
     <div class="stack">
       <Button onclick={unlock}>Unlock {lower}</Button>
       <Button variant="outline" disabled={holdOptions(portal.now, portal.stay).length === 0} onclick={hold}>Keep unlocked for a while…</Button>

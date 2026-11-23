@@ -21,9 +21,9 @@
   onMount(() => portal.connect());
 </script>
 
-{#if portal.stage === 'ended' || !portal.house}
+{#if portal.stage === 'ended'}
   <Ended stay={portal.stay} {info} />
 {:else}
-  <Dashboard house={portal.house} {info} />
+  <Dashboard {info} />
   {#if demo}<DemoBar stage={portal.stage} stages={demo.stages} />{/if}
 {/if}

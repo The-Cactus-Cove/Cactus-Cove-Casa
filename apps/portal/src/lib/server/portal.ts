@@ -1,14 +1,23 @@
 import { CommandError, commandAllowed, type Command } from '#lib/house/commands.ts';
-import { stageOf } from '#lib/house/stage.ts';
+import { controlsLive, stageOf } from '#lib/house/stage.ts';
 import type { PortalSnapshot } from '#lib/house/types.ts';
 import type { Guest } from './guest.ts';
 import { house } from './house/index.ts';
 import { reservations } from './reservations/index.ts';
 
-/** What this guest may see right now. */
+/**
+ * What this guest may see right now. Live house state only during the stay;
+ * before check-in just the arrival temperature, after checkout nothing.
+ */
 export function snapshot(guest: Guest, now = new Date()): PortalSnapshot {
   const stage = stageOf(guest.stay, now);
-  return { stay: guest.stay, stage, house: stage === 'ended' ? null : house().state() };
+  const state = house().state();
+  return {
+    stay: guest.stay,
+    stage,
+    house: controlsLive(stage) ? state : null,
+    arrival: stage === 'before' ? { setpoint: state.thermostat.arrivalSetpoint } : null
+  };
 }
 
 /** Run a guest's command after checking their stage allows it. */

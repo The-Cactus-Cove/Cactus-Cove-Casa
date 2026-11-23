@@ -1,13 +1,14 @@
 <script lang="ts">
   import { getPortal } from '#lib/client/portal.svelte.ts';
   import { formatDay, formatTime } from '#lib/house/format.ts';
-  import { controlsLive } from '#lib/house/stage.ts';
-  import type { HouseInfo, HouseState } from '#lib/house/types.ts';
+  import type { HouseInfo } from '#lib/house/types.ts';
   import Notice from '../ui/Notice.svelte';
+  import ArrivalCard from './ArrivalCard.svelte';
   import CheckoutCard from './CheckoutCard.svelte';
   import DoorsCard from './DoorsCard.svelte';
   import GarageCard from './GarageCard.svelte';
   import GuideLink from './GuideLink.svelte';
+  import HeadingOutCard from './HeadingOutCard.svelte';
   import HouseInfoCard from './HouseInfoCard.svelte';
   import LockCard from './LockCard.svelte';
   import StayTicket from './StayTicket.svelte';
@@ -15,10 +16,8 @@
   import TopBar from './TopBar.svelte';
   import TvCard from './TvCard.svelte';
 
-  let { house, info }: { house: HouseState; info: HouseInfo } = $props();
+  let { info }: { info: HouseInfo } = $props();
   const portal = getPortal();
-  const live = $derived(controlsLive(portal.stage));
-  const before = $derived(portal.stage === 'before');
   const checkIn = $derived(`${formatDay(portal.stay.checkIn, portal.timeZone)} at ${formatTime(portal.stay.checkIn, portal.timeZone)}`);
 </script>
 
@@ -26,24 +25,22 @@
 <h1>Howdy, {portal.stay.guestName}</h1>
 <StayTicket />
 
-{#if portal.stage === 'checkout-day'}<CheckoutCard {house} />{/if}
-
-<h2>The ranch controls</h2>
-{#if before}
-  <Notice>Door and garage controls unlock at check-in, {checkIn}. You can set your arrival temperature now.</Notice>
-{/if}
-
-<GarageCard garage={house.garage} {live} />
-{#each house.locks as lock (lock.id)}<LockCard {lock} {live} />{/each}
-<ThermostatCard thermostat={house.thermostat} arrival={before} />
-
-{#if live}
+{#if portal.house}
+  {@const house = portal.house}
+  {#if portal.stage === 'checkout-day'}<CheckoutCard {house} />{/if}
+  <h2>The ranch controls</h2>
+  <HeadingOutCard away={house.away} />
+  <GarageCard garage={house.garage} />
+  {#each house.locks as lock (lock.id)}<LockCard {lock} />{/each}
+  <ThermostatCard thermostat={house.thermostat} />
   <TvCard tvs={house.tvs} />
-{:else}
-  <Notice>TV remotes and sleep timers switch on at check-in.</Notice>
+  <DoorsCard doors={house.doors} />
+{:else if portal.snapshot.arrival}
+  <h2>Before you arrive</h2>
+  <Notice>Door, garage and TV controls switch on at check-in, {checkIn}. You can set your arrival temperature now.</Notice>
+  <ArrivalCard setpoint={portal.snapshot.arrival.setpoint} />
 {/if}
 
-<DoorsCard doors={house.doors} />
 <GuideLink />
 <HouseInfoCard {info} />
 

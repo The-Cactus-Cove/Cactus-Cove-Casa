@@ -1,4 +1,5 @@
 import type { Command } from '#lib/house/commands.ts';
+import { DEFAULT_AWAY_SETPOINT } from '#lib/house/limits.ts';
 import type { HouseState, LockState, TvState } from '#lib/house/types.ts';
 import { Listeners, type CommandContext, type HouseBackend } from './backend.ts';
 import { DOORS, LOCKS, TVS, tvName } from './layout.ts';
@@ -13,6 +14,7 @@ export class MockHouse implements HouseBackend {
   #timers = new Map<string, NodeJS.Timeout>();
   #state: HouseState = {
     garage: { open: false },
+    away: { adjustThermostat: true, setpoint: DEFAULT_AWAY_SETPOINT },
     locks: LOCKS.map((l) => ({ ...l, locked: true, holdUntil: null })),
     thermostat: { current: 77, setpoint: 74, mode: 'cool', arrivalSetpoint: 72 },
     tvs: TVS.map((t) => ({
@@ -79,8 +81,15 @@ export class MockHouse implements HouseBackend {
       case 'tv-lockout':
         this.#tv(command.tvId).lockout = command.lockout;
         break;
+      case 'away-settings':
+        s.away = { adjustThermostat: command.adjustThermostat, setpoint: command.setpoint };
+        break;
+      case 'heading-out':
+        this.#secure();
+        if (s.away.adjustThermostat) s.thermostat.setpoint = s.away.setpoint;
+        break;
       case 'checkout':
-        this.#checkout();
+        this.#secure();
         break;
     }
     this.#listeners.emit();
@@ -114,7 +123,8 @@ export class MockHouse implements HouseBackend {
     this.#listeners.emit();
   }
 
-  #checkout() {
+  /** Lock up, close the garage and switch off every TV. */
+  #secure() {
     for (const lock of this.#state.locks) this.#relock(lock);
     this.#setGarage(false);
     for (const tv of this.#state.tvs) {

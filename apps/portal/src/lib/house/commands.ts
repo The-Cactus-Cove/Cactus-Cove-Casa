@@ -22,6 +22,8 @@ export type Command =
   | { type: 'tv-key'; tvId: string; key: TvKey }
   | { type: 'tv-sleep'; tvId: string; sleep: SleepRequest }
   | { type: 'tv-lockout'; tvId: string; lockout: LockoutRequest }
+  | { type: 'away-settings'; adjustThermostat: boolean; setpoint: number }
+  | { type: 'heading-out' }
   | { type: 'checkout' };
 
 export type CommandType = Command['type'];
@@ -99,6 +101,10 @@ export function parseCommand(input: unknown): Command {
       return { type: 'tv-sleep', tvId: str(c.tvId, 'tvId'), sleep: sleep(c.sleep) };
     case 'tv-lockout':
       return { type: 'tv-lockout', tvId: str(c.tvId, 'tvId'), lockout: lockout(c.lockout) };
+    case 'away-settings':
+      return { type: 'away-settings', adjustThermostat: bool(c.adjustThermostat, 'adjustThermostat'), setpoint: setpoint(c.setpoint) };
+    case 'heading-out':
+      return { type: 'heading-out' };
     case 'checkout':
       return { type: 'checkout' };
     default:

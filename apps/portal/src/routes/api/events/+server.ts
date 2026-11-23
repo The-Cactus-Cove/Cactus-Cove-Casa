@@ -1,3 +1,4 @@
+import { controlsLive, stageOf } from '#lib/house/stage.ts';
 import { requireGuest } from '#lib/server/guest.ts';
 import { house } from '#lib/server/house/index.ts';
 import { refreshGuest, snapshot } from '#lib/server/portal.ts';
@@ -15,25 +16,26 @@ export const GET: RequestHandler = (event) => {
   const stream = new ReadableStream<Uint8Array>({
     start(controller) {
       let closed = false;
-      const send = async () => {
+      const send = async (reason: 'connect' | 'tick' | 'house') => {
         if (closed) return;
         const fresh = (await refreshGuest(guest)) ?? guest;
-        if (closed) return;
+        // Outside the stay, house activity isn't the guest's business (its timing alone hints at occupancy).
+        if (closed || (reason === 'house' && !controlsLive(stageOf(fresh.stay, new Date())))) return;
         try {
           controller.enqueue(encoder.encode(`event: snapshot\ndata: ${JSON.stringify(snapshot(fresh))}\n\n`));
         } catch {
           cleanup(); // client went away mid-send
         }
       };
-      const unsubscribe = house().subscribe(() => void send());
-      const tick = setInterval(() => void send(), TICK_MS);
+      const unsubscribe = house().subscribe(() => void send('house'));
+      const tick = setInterval(() => void send('tick'), TICK_MS);
       cleanup = () => {
         closed = true;
         unsubscribe();
         clearInterval(tick);
       };
       event.request.signal.addEventListener('abort', () => cleanup());
-      void send();
+      void send('connect');
     },
     cancel() {
       cleanup();

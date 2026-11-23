@@ -36,7 +36,16 @@ await page.getByRole('button', { name: 'Keep unlocked for a while…' }).first()
 await shot('03-hold-sheet', { full: false });
 await page.getByRole('button', { name: 'Never mind' }).click();
 
-await page.getByRole('button', { name: "Kid's room", exact: true }).click();
+await page.getByRole('button', { name: 'Change thermostat setting' }).click();
+await page.locator('#away-settings').scrollIntoViewIfNeeded();
+await shot('03a-away-settings', { full: false });
+await page.getByRole('button', { name: 'Lock up and go' }).first().click();
+await shot('03a-heading-out-sheet', { full: false });
+await page.getByRole('button', { name: 'Never mind' }).click();
+
+await page.locator('summary', { hasText: 'TVs' }).click();
+await page.selectOption('#tv-picker', 'kids');
+await shot('03b-tvs-expanded');
 await page.getByRole('button', { name: 'One night', exact: true }).click();
 await page.waitForTimeout(400);
 await page.locator('#lockout-kids').scrollIntoViewIfNeeded();

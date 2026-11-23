@@ -7,7 +7,7 @@
   import DeviceHeader from '../ui/DeviceHeader.svelte';
   import Status from '../ui/Status.svelte';
 
-  let { garage, live }: { garage: GarageState; live: boolean } = $props();
+  let { garage }: { garage: GarageState } = $props();
   const portal = getPortal();
   /** The door takes a few seconds to travel; show that until the sensor reports. */
   let moving = $state<boolean | null>(null);
@@ -39,11 +39,7 @@
       <Status tone="ok">Closed</Status>
     {/if}
   </DeviceHeader>
-  {#if live}
-    <Button variant="green" busy={moving !== null} onclick={toggle}>{garage.open ? 'Close garage' : 'Open garage'}</Button>
-  {:else}
-    <Button disabled>Available at check-in</Button>
-  {/if}
+  <Button variant="green" busy={moving !== null} onclick={toggle}>{garage.open ? 'Close garage' : 'Open garage'}</Button>
   <small>The wall button inside the garage works too.</small>
 </Card>
 

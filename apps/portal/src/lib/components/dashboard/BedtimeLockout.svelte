@@ -6,7 +6,9 @@
   import { localDate, nextOccurrence, nightsOf, zonedInstant } from '#lib/house/time.ts';
   import type { TvState } from '#lib/house/types.ts';
   import Choice from '../ui/Choice.svelte';
+  import Select from '../ui/Select.svelte';
   import TimeField from '../ui/TimeField.svelte';
+  import Toggle from '../ui/Toggle.svelte';
 
   let { tv }: { tv: TvState } = $props();
   const portal = getPortal();
@@ -43,9 +45,7 @@
       <span class="title" id="lockout-{tv.id}">Bedtime lockout</span>
       <span class="sub">If someone turns this TV on during these hours, it switches itself back off.</span>
     </div>
-    <button type="button" class="toggle" aria-pressed={lockout.enabled} aria-labelledby="lockout-{tv.id}" onclick={() => save({ enabled: !lockout.enabled })}>
-      {lockout.enabled ? 'On' : 'Off'}
-    </button>
+    <Toggle on={lockout.enabled} labelledby="lockout-{tv.id}" onchange={(enabled) => save({ enabled })} />
   </div>
 
   {#if lockout.enabled}
@@ -64,12 +64,13 @@
       onchange={(v) => save({ scope: v === 'stay' ? { kind: 'stay' } : { kind: 'night', night } })}
     />
     {#if lockout.scope.kind === 'night'}
-      <div class="night">
-        <label for="lock-night-{tv.id}">Night of</label>
-        <select id="lock-night-{tv.id}" value={night} onchange={(e) => save({ scope: { kind: 'night', night: e.currentTarget.value } })}>
-          {#each nights as n (n)}<option value={n}>{formatLocalDate(n)}</option>{/each}
-        </select>
-      </div>
+      <Select
+        id="lock-night-{tv.id}"
+        label="Night of"
+        value={night}
+        options={nights.map((n) => ({ value: n, label: formatLocalDate(n) }))}
+        onchange={(n) => save({ scope: { kind: 'night', night: n } })}
+      />
     {/if}
     <span class="summary" aria-live="polite">{summary}</span>
   {/if}
@@ -81,31 +82,6 @@
   .text { display: flex; flex-direction: column; gap: 2px; flex: 1; }
   .title { font-weight: 600; font-size: 16px; }
   .sub { font-size: 13px; color: var(--cc-muted); line-height: 1.4; }
-  .toggle {
-    min-width: 64px;
-    min-height: var(--cc-tap);
-    border: 2px solid var(--cc-field);
-    border-radius: var(--cc-radius-pill);
-    background: var(--cc-field-bg);
-    color: var(--cc-ink);
-    font: inherit;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .toggle[aria-pressed='true'] { background: var(--cc-saguaro); border-color: var(--cc-saguaro); color: var(--cc-paper); }
   .times { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .night { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-  .night label { font-size: 15px; }
-  select {
-    height: var(--cc-tap);
-    border: 2px solid var(--cc-field);
-    border-radius: 12px;
-    background: var(--cc-field-bg);
-    font: inherit;
-    font-size: 16px;
-    color: var(--cc-ink);
-    padding: 0 10px;
-  }
   .summary { font-size: 14px; color: var(--cc-warning); font-weight: 600; }
 </style>

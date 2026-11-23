@@ -19,6 +19,15 @@ describe('parseCommand', () => {
     ).toMatchObject({ lockout: { scope: { kind: 'night', night: '2026-11-21' } } });
   });
 
+  it('accepts heading out and away settings', () => {
+    expect(parseCommand({ type: 'heading-out' })).toEqual({ type: 'heading-out' });
+    expect(parseCommand({ type: 'away-settings', adjustThermostat: false, setpoint: 78 })).toEqual({
+      type: 'away-settings',
+      adjustThermostat: false,
+      setpoint: 78
+    });
+  });
+
   it('drops unknown fields', () => {
     expect(parseCommand({ type: 'garage', open: true, entity: 'lock.everything' })).toEqual({ type: 'garage', open: true });
   });
@@ -32,7 +41,9 @@ describe('parseCommand', () => {
     [{ type: 'tv-sleep', tvId: 'living', sleep: { kind: 'in', hours: 5 } }],
     [{ type: 'tv-sleep', tvId: 'living', sleep: { kind: 'at', time: '25:00' } }],
     [{ type: 'tv-key', tvId: 'living', key: 'power_off_everything' }],
-    [{ type: 'lock', lockId: 'front', locked: false, holdUntil: 'soon' }]
+    [{ type: 'lock', lockId: 'front', locked: false, holdUntil: 'soon' }],
+    [{ type: 'away-settings', adjustThermostat: 'yes', setpoint: 78 }],
+    [{ type: 'away-settings', adjustThermostat: true, setpoint: 99 }]
   ])('rejects %j', (input) => {
     expect(() => parseCommand(input)).toThrow(CommandError);
   });
@@ -43,12 +54,15 @@ describe('commandAllowed', () => {
     expect(commandAllowed('arrival-temperature', 'before')).toBe(true);
     expect(commandAllowed('garage', 'before')).toBe(false);
     expect(commandAllowed('tv-power', 'before')).toBe(false);
+    expect(commandAllowed('heading-out', 'before')).toBe(false);
+    expect(commandAllowed('away-settings', 'before')).toBe(false);
   });
 
   it('allows controls during the stay and on checkout day', () => {
     for (const stage of ['during', 'checkout-day'] as const) {
       expect(commandAllowed('garage', stage)).toBe(true);
       expect(commandAllowed('checkout', stage)).toBe(true);
+      expect(commandAllowed('heading-out', stage)).toBe(true);
       expect(commandAllowed('arrival-temperature', stage)).toBe(false);
     }
   });

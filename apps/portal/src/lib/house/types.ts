@@ -78,8 +78,15 @@ export interface DoorState {
   open: boolean;
 }
 
+/** What "Heading out" does with the thermostat. Chosen by the guest. */
+export interface AwaySettings {
+  adjustThermostat: boolean;
+  setpoint: number;
+}
+
 export interface HouseState {
   garage: GarageState;
+  away: AwaySettings;
   locks: LockState[];
   thermostat: ThermostatState;
   tvs: TvState[];
@@ -97,6 +104,8 @@ export interface HouseInfo {
 export interface PortalSnapshot {
   stay: Stay;
   stage: Stage;
-  /** Null once the stay has ended: a past guest sees nothing about the house. */
+  /** Live house state, only while the stay is on (during / checkout day). */
   house: HouseState | null;
+  /** Before check-in the guest only gets the arrival temperature: no live data. */
+  arrival: { setpoint: number } | null;
 }
