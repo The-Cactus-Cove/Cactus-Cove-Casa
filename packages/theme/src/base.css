@@ -1,0 +1,22 @@
+@import './fonts.css';
+@import './tokens.css';
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--cc-sand);
+  color: var(--cc-ink);
+  font-family: var(--cc-font-body);
+  line-height: 1.5;
+}
+
+a { color: var(--cc-adobe); }
+a:hover { color: var(--cc-adobe-dark); }
+
+h1, h2, .cc-display {
+  font-family: var(--cc-font-display);
+  font-weight: 400;
+}
+
+:focus-visible { outline: 3px solid var(--cc-adobe); outline-offset: 2px; }

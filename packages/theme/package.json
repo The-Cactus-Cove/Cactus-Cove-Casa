@@ -1,0 +1,14 @@
+{
+  "name": "@cactus-cove/theme",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared Cactus Cove design tokens, fonts and logo",
+  "exports": {
+    "./tokens.css": "./src/tokens.css",
+    "./base.css": "./src/base.css",
+    "./fonts.css": "./src/fonts.css",
+    "./logo.svg": "./src/logo.svg",
+    "./tokens": "./src/tokens.js"
+  }
+}
