@@ -16,7 +16,16 @@ export const color = {
   sage: '#E4EBDD',
   gold: '#E9C88F',
   dusk: '#4A3426',        // hero / ticket background
-  warning: '#9A3412'
+  warning: '#9A3412',
+  // Portal (see tokens.css for roles)
+  field: '#CDB592',
+  fieldBg: '#FFFDF8',
+  disabled: '#E6DAC4',
+  disabledInk: '#5E4E40',
+  ticket: '#3A2A20',
+  notice: '#EFE3CC',
+  tv: '#2F4A66',
+  honey: '#8A5A12'
 };
 
 export const font = {

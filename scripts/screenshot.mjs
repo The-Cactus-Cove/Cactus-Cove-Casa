@@ -1,6 +1,6 @@
 import { chromium } from 'playwright';
 
-const url = `http://127.0.0.1:8000${process.env.URL_PATH ?? '/'}`;
+const url = `${process.env.BASE}${process.env.URL_PATH ?? '/'}`;
 const viewports = { desktop: 1280, tablet: 820, phone: 390 };
 
 const browser = await chromium.launch();

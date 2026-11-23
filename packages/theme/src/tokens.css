@@ -16,6 +16,26 @@
   --cc-dusk: #4A3426;
   --cc-warning: #9A3412;
 
+  /* Portal */
+  --cc-field: #CDB592;          /* input and outline-button borders */
+  --cc-field-bg: #FFFDF8;
+  --cc-disabled: #E6DAC4;
+  --cc-disabled-ink: #5E4E40;
+  --cc-ticket: #3A2A20;
+  --cc-ticket-rule: #6E5747;
+  --cc-ticket-label: #CDBFA7;
+  --cc-ticket-soft: #DCCFB8;
+  --cc-notice: #EFE3CC;
+  --cc-notice-border: #B99D74;
+  --cc-notice-ink: #4A3A2D;
+  --cc-tv: #2F4A66;
+  --cc-remote: #F3EAD8;
+  --cc-honey: #8A5A12;
+  --cc-tint-sage: #E4EBDD;
+  --cc-tint-clay: #F3E0D3;
+  --cc-tint-honey: #F4E6C8;
+  --cc-tint-sky: #E1E7EE;
+
   --cc-font-display: 'Rye', Georgia, serif;
   --cc-font-body: 'Archivo', system-ui, sans-serif;
 
