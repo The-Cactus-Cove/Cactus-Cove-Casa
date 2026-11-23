@@ -24,6 +24,10 @@ export const variables = defineEnvVars({
     description: 'Secret (32+ chars) for signing session cookies and stay links',
     schema: optional('')
   },
+  GUIDE_DIR: {
+    description: 'Directory holding the built Starlight guide',
+    schema: optional('../guide/dist')
+  },
   PORTAL_ORIGIN: {
     description: 'Public origin of the portal, e.g. https://stay.cactuscove.casa',
     schema: optional('http://localhost:3000')
