@@ -28,6 +28,14 @@ export const variables = defineEnvVars({
     description: 'Directory holding the built Starlight guide',
     schema: optional('../guide/dist')
   },
+  PROPERTY_TIMEZONE: {
+    description: 'IANA time zone of the property',
+    schema: optional('America/Phoenix')
+  },
+  WIFI_SSID: { description: 'Guest Wi-Fi network name', schema: optional('') },
+  WIFI_PASSWORD: { description: 'Guest Wi-Fi password', schema: optional('') },
+  HOST_PHONE: { description: 'Host phone number guests can text, e.g. +15205550100', schema: optional('') },
+  REVIEW_URL: { description: 'Where the "Leave us a review" link goes', schema: optional('') },
   PORTAL_ORIGIN: {
     description: 'Public origin of the portal, e.g. https://stay.cactuscove.casa',
     schema: optional('http://localhost:3000')

@@ -1,32 +1,17 @@
 import { redirect, type RequestEvent } from '@sveltejs/kit';
-import { config } from './config.ts';
+import { reservations, type Reservation } from './reservations/index.ts';
+import { sessionReservationId } from './session.ts';
 
-/** A guest with a valid session for one reservation. */
-export interface Guest {
-  reservationId: string;
-  name: string;
-  checkIn: Date;
-  checkOut: Date;
+/** A signed-in guest is the reservation their session belongs to. */
+export type Guest = Reservation;
+
+/** Resolve the guest from the session cookie. */
+export async function resolveGuest(event: RequestEvent): Promise<Guest | null> {
+  const id = sessionReservationId(event.cookies);
+  return id ? reservations().byId(id) : null;
 }
 
-/**
- * Resolve the guest for this request.
- * TODO(auth): read the signed session cookie. Until sign-in lands, only mock
- * mode gets a demo guest; real mode treats everyone as signed out.
- */
-export function resolveGuest(_event: RequestEvent): Guest | null {
-  if (!config().haMock) return null;
-  const now = Date.now();
-  const day = 24 * 60 * 60 * 1000;
-  return {
-    reservationId: 'demo',
-    name: 'Sam',
-    checkIn: new Date(now - day),
-    checkOut: new Date(now + 2 * day)
-  };
-}
-
-/** Guard for guest-only routes: redirect to sign-in when signed out. */
+/** Guard for guest-only routes: redirect to the start page when signed out. */
 export function requireGuest(event: RequestEvent): Guest {
   if (!event.locals.guest) redirect(303, '/');
   return event.locals.guest;

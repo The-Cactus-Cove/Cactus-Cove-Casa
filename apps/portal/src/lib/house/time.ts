@@ -67,3 +67,9 @@ export function nightsOf(checkIn: string, checkOut: string, timeZone: string): L
   for (let d = first; d < last; d = addDays(d, 1)) nights.push(d);
   return nights;
 }
+
+/** Local wall-clock time of an instant, "HH:MM". */
+export function localTime(date: Date, timeZone: string): ClockTime {
+  const p = parts(date, timeZone);
+  return `${String(p.hour).padStart(2, '0')}:${String(p.minute).padStart(2, '0')}`;
+}

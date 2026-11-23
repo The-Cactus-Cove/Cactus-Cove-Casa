@@ -9,6 +9,6 @@ export const init: ServerInit = () => {
 };
 
 export const handle: Handle = async ({ event, resolve }) => {
-  event.locals.guest = resolveGuest(event);
+  event.locals.guest = await resolveGuest(event);
   return resolve(event);
 };

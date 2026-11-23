@@ -1,4 +1,16 @@
-import { HA_MOCK, HA_TOKEN, HA_URL, PORTAL_ORIGIN, SESSION_SECRET } from '$app/env/private';
+import {
+  HA_MOCK,
+  HA_TOKEN,
+  HA_URL,
+  HOST_PHONE,
+  PORTAL_ORIGIN,
+  PROPERTY_TIMEZONE,
+  REVIEW_URL,
+  SESSION_SECRET,
+  WIFI_PASSWORD,
+  WIFI_SSID
+} from '$app/env/private';
+import type { HouseInfo } from '#lib/house/types.ts';
 
 /** Runtime configuration. Validated on first use; hooks.server.ts calls this at startup. */
 export interface Config {
@@ -7,9 +19,20 @@ export interface Config {
   haToken: string;
   sessionSecret: string;
   portalOrigin: string;
+  timeZone: string;
+  houseInfo: HouseInfo;
 }
 
 let cached: Config | undefined;
+
+function validTimeZone(zone: string): string {
+  try {
+    new Intl.DateTimeFormat('en-US', { timeZone: zone });
+    return zone;
+  } catch {
+    throw new Error(`PROPERTY_TIMEZONE "${zone}" is not a valid IANA time zone`);
+  }
+}
 
 export function config(): Config {
   if (cached) return cached;
@@ -24,7 +47,13 @@ export function config(): Config {
     haUrl: HA_URL,
     haToken: HA_TOKEN,
     sessionSecret: SESSION_SECRET,
-    portalOrigin: PORTAL_ORIGIN
+    portalOrigin: PORTAL_ORIGIN,
+    timeZone: validTimeZone(PROPERTY_TIMEZONE),
+    houseInfo: {
+      wifi: WIFI_SSID ? { ssid: WIFI_SSID, password: WIFI_PASSWORD } : null,
+      hostPhone: HOST_PHONE || null,
+      reviewUrl: REVIEW_URL || null
+    }
   };
   return cached;
 }

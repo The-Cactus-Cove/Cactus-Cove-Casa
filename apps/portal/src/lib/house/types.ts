@@ -97,5 +97,6 @@ export interface HouseInfo {
 export interface PortalSnapshot {
   stay: Stay;
   stage: Stage;
-  house: HouseState;
+  /** Null once the stay has ended: a past guest sees nothing about the house. */
+  house: HouseState | null;
 }
