@@ -1,0 +1,15 @@
+# Local development without NPM:
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+# Landing → http://localhost:8080   Portal → http://localhost:3000
+services:
+  landing:
+    ports: ["8080:80"]
+  portal:
+    ports: ["3000:3000"]
+    environment:
+      ORIGIN: http://localhost:3000
+
+networks:
+  proxy:
+    name: cactus-cove-dev
+    external: false
