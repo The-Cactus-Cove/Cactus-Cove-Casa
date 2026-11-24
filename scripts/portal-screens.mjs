@@ -35,6 +35,14 @@ await page.waitForURL(`${base}/`);
 await stage('During stay');
 await shot('02-home');
 
+await page.getByRole('region', { name: 'Garage door' }).getByRole('button', { name: 'Open' }).click();
+await shot('02-home-garage-sheet', { full: false });
+await click('Yes, open it');
+await page.waitForTimeout(500);
+await shot('02-home-garage-opening', { full: false });
+await page.getByRole('region', { name: 'Garage door' }).getByText('Open', { exact: true }).waitFor({ timeout: 8000 });
+await shot('02-home-garage-open', { full: false });
+
 await tab('Doors');
 await click('Unlock all until', { exact: false });
 await shot('03-doors-hold-all-sheet', { full: false });
@@ -64,6 +72,7 @@ await stage('Before check-in');
 await shot('08-before');
 const guide = await page.goto(`${base}/guide/`);
 console.log(`guide before check-in -> ${page.url().replace(base, '')} (${guide.status()})`);
+await page.goto(`${base}/`);
 await page.goto(`${base}/doors`);
 console.log(`/doors before check-in -> ${page.url().replace(base, '')}`);
 

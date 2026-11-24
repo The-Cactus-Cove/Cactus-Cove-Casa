@@ -3,6 +3,7 @@
   import CheckoutCard from '#lib/components/dashboard/CheckoutCard.svelte';
   import GuideLink from '#lib/components/dashboard/GuideLink.svelte';
   import StayTicket from '#lib/components/dashboard/StayTicket.svelte';
+  import GarageQuick from '#lib/components/home/GarageQuick.svelte';
   import HouseStatus from '#lib/components/home/HouseStatus.svelte';
   import QuickActions from '#lib/components/home/QuickActions.svelte';
   import WifiCard from '#lib/components/home/WifiCard.svelte';
@@ -14,6 +15,7 @@
 
 {#if portal?.house}
   <h1>Howdy, {portal.stay.guestName}</h1>
+  <GarageQuick />
   <StayTicket />
   {#if portal.stage === 'checkout-day'}<CheckoutCard house={portal.house} />{/if}
   <QuickActions away={portal.house.away} />

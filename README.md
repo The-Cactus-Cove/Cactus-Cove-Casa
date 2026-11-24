@@ -6,7 +6,7 @@ Websites for the Cactus Cove rental:
 | --- | --- | --- |
 | `cactuscove.casa` | `apps/landing` | Public landing page (Astro, static, served by nginx) |
 | `stay.cactuscove.casa` | `apps/portal` | Guest portal: sign-in and house controls (SvelteKit, Node) |
-| `stay.cactuscove.casa/guide` | `apps/guide` | House guide (Starlight, served by the portal during a stay) |
+| `stay.cactuscove.casa/guide` | `apps/guide` | House guide (Starlight, served by the portal to signed-in guests; no secrets in it) |
 
 Shared colors, fonts and the logo live in `packages/theme`.
 All home data and controls go through Home Assistant; the browser never talks to HA directly.
@@ -33,7 +33,7 @@ The repo deploys as a single **Git stack** in Dockhand, which builds both images
 
   Check the names with `docker network ls`. If yours differ, set `PROXY_NETWORK` / `HASS_NETWORK`.
 - **Home Assistant user.** In HA, create a dedicated user (e.g. "Cactus Cove portal"), sign in as it, and create a long-lived access token under *Profile → Security*. That token is `HA_TOKEN`.
-- **HA address.** The portal reaches HA by container name on the `hass` network. The default is `http://homeassistant:8123`. If your HA container has another name, set `HA_URL`.
+- **HA address.** The portal reaches HA by container name on the `hass` network. The default is `http://home-assistant:8123`. If your HA container has another name, set `HA_URL`.
 
 ### 2. Create the stack
 
@@ -55,7 +55,7 @@ Add these as stack variables. Mark the 🔒 ones as **secrets**: they are stored
 | --- | --- | --- |
 | `SESSION_SECRET` 🔒 | yes | `openssl rand -base64 48` |
 | `HA_TOKEN` 🔒 | yes | long-lived token from step 1 |
-| `HA_URL` | | `http://homeassistant:8123` |
+| `HA_URL` | | `http://home-assistant:8123` |
 | `PORTAL_ORIGIN` | | `https://stay.cactuscove.casa` |
 | `PROPERTY_TIMEZONE` | | `America/Phoenix` |
 | `WIFI_SSID` | | shown to guests during their stay |

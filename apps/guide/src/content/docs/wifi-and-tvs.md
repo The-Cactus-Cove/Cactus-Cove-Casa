@@ -7,7 +7,7 @@ Fast Wi-Fi covers the whole house, patio included.
 
 ## Wi-Fi
 
-[Network name] and [password]. The password is also on your stay page.
+The network name and password are on the **Home** tab of your stay page from check-in.
 
 ## TVs
 

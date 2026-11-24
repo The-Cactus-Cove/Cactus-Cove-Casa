@@ -37,7 +37,7 @@ services:
     image: cactus-cove-portal
     container_name: cactus-cove-portal
     environment:
-      HA_URL: ${HA_URL:-http://homeassistant:8123}
+      HA_URL: ${HA_URL:-http://home-assistant:8123}
       HA_TOKEN: ${HA_TOKEN:-}
       HA_MOCK: ${HA_MOCK:-false}
       SESSION_SECRET: ${SESSION_SECRET:?Set SESSION_SECRET (32+ random characters)}

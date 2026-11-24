@@ -10,7 +10,7 @@
 
 <PageTitle title="Doors" />
 {#if portal.house}
+  <GarageCard />
   <AllDoorsCard locks={portal.house.locks} />
   {#each portal.house.locks as lock (lock.id)}<LockCard {lock} />{/each}
-  <GarageCard garage={portal.house.garage} />
 {/if}
