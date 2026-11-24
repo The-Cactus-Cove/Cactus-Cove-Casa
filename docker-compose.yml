@@ -56,7 +56,7 @@ services:
 
 networks:
   proxy:
-    name: ${PROXY_NETWORK:-npm_default}
+    name: ${PROXY_NETWORK:-proxy_net}
     external: true
   # Home Assistant's network; the portal reaches HA by its container name.
   hass:
