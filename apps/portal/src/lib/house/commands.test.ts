@@ -28,6 +28,17 @@ describe('parseCommand', () => {
     });
   });
 
+  it('accepts whole-house commands', () => {
+    expect(parseCommand({ type: 'lock-up' })).toEqual({ type: 'lock-up' });
+    expect(parseCommand({ type: 'tvs-off' })).toEqual({ type: 'tvs-off' });
+    expect(parseCommand({ type: 'all-locks', locked: true })).toEqual({ type: 'all-locks', locked: true });
+    expect(parseCommand({ type: 'all-locks', locked: false, holdUntil: '2026-11-21T05:00:00Z' })).toEqual({
+      type: 'all-locks',
+      locked: false,
+      holdUntil: '2026-11-21T05:00:00.000Z'
+    });
+  });
+
   it('drops unknown fields', () => {
     expect(parseCommand({ type: 'garage', open: true, entity: 'lock.everything' })).toEqual({ type: 'garage', open: true });
   });
@@ -43,6 +54,8 @@ describe('parseCommand', () => {
     [{ type: 'tv-key', tvId: 'living', key: 'power_off_everything' }],
     [{ type: 'lock', lockId: 'front', locked: false, holdUntil: 'soon' }],
     [{ type: 'away-settings', adjustThermostat: 'yes', setpoint: 78 }],
+    [{ type: 'all-locks', locked: false }],
+    [{ type: 'tvs-lockout', lockout: { enabled: true, from: '20:30', to: '07:00', scope: { kind: 'week' } } }],
     [{ type: 'away-settings', adjustThermostat: true, setpoint: 99 }]
   ])('rejects %j', (input) => {
     expect(() => parseCommand(input)).toThrow(CommandError);

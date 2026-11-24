@@ -13,18 +13,6 @@
   <meta name="theme-color" content="#F6EEDF" />
 </svelte:head>
 
-<main class="shell">{@render children()}</main>
+{@render children()}
 <Toast />
 <Sheet />
-
-<style>
-  .shell {
-    min-height: 100dvh;
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 20px 18px 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-</style>

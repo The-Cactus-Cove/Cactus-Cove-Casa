@@ -1,5 +1,5 @@
 import { CommandError, type SleepRequest } from '#lib/house/commands.ts';
-import { MAX_HOLD_HOURS } from '#lib/house/limits.ts';
+import { holdProblem } from '#lib/house/holds.ts';
 import { nextOccurrence } from '#lib/house/time.ts';
 import { formatClock } from '#lib/house/format.ts';
 import { lockedOut } from '#lib/house/lockout.ts';
@@ -10,9 +10,8 @@ import type { CommandContext } from './backend.ts';
 export function checkHold(holdUntil: string | null, { now, stay }: CommandContext): Date | null {
   if (!holdUntil) return null;
   const until = new Date(holdUntil);
-  const latest = Math.min(now.getTime() + MAX_HOLD_HOURS * 3600_000, new Date(stay.checkOut).getTime());
-  if (until.getTime() <= now.getTime()) throw new CommandError('That time has already passed');
-  if (until.getTime() > latest) throw new CommandError(`Doors can be held unlocked for up to ${MAX_HOLD_HOURS} hours, and not past checkout`);
+  const problem = holdProblem(until, now, stay);
+  if (problem) throw new CommandError(problem);
   return until;
 }
 

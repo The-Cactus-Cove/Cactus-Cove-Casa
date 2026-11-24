@@ -22,6 +22,11 @@ export type Command =
   | { type: 'tv-key'; tvId: string; key: TvKey }
   | { type: 'tv-sleep'; tvId: string; sleep: SleepRequest }
   | { type: 'tv-lockout'; tvId: string; lockout: LockoutRequest }
+  | { type: 'all-locks'; locked: true }
+  | { type: 'all-locks'; locked: false; holdUntil: string }
+  | { type: 'tvs-off' }
+  | { type: 'tvs-lockout'; lockout: LockoutRequest }
+  | { type: 'lock-up' }
   | { type: 'away-settings'; adjustThermostat: boolean; setpoint: number }
   | { type: 'heading-out' }
   | { type: 'checkout' };
@@ -101,6 +106,16 @@ export function parseCommand(input: unknown): Command {
       return { type: 'tv-sleep', tvId: str(c.tvId, 'tvId'), sleep: sleep(c.sleep) };
     case 'tv-lockout':
       return { type: 'tv-lockout', tvId: str(c.tvId, 'tvId'), lockout: lockout(c.lockout) };
+    case 'all-locks':
+      return bool(c.locked, 'locked')
+        ? { type: 'all-locks', locked: true }
+        : { type: 'all-locks', locked: false, holdUntil: instant(c.holdUntil, 'holdUntil') };
+    case 'tvs-off':
+      return { type: 'tvs-off' };
+    case 'tvs-lockout':
+      return { type: 'tvs-lockout', lockout: lockout(c.lockout) };
+    case 'lock-up':
+      return { type: 'lock-up' };
     case 'away-settings':
       return { type: 'away-settings', adjustThermostat: bool(c.adjustThermostat, 'adjustThermostat'), setpoint: setpoint(c.setpoint) };
     case 'heading-out':

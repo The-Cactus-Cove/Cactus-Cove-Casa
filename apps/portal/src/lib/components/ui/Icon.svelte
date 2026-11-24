@@ -1,6 +1,7 @@
 <script lang="ts" module>
   /** Stroke icons from the mockup, drawn on a 24×24 grid. */
   const ICONS = {
+    home: ['M3 11l9-7 9 7', 'M5 10v10h14V10', 'M10 20v-6h4v6'],
     garage: ['M3 21V9l9-5 9 5v12', 'M7 21v-9h10v9M7 15h10M7 18h10'],
     lock: ['M8 11V7a4 4 0 0 1 8 0v4', 'M12 15v2', 'M7 11h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2z'],
     thermometer: ['M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z', 'M12 9v7'],

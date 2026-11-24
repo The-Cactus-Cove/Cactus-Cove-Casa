@@ -93,9 +93,13 @@ export interface HouseState {
   doors: DoorState[];
 }
 
-/** Static details shown to signed-in guests. */
-export interface HouseInfo {
-  wifi: { ssid: string; password: string } | null;
+export interface Wifi {
+  ssid: string;
+  password: string;
+}
+
+/** How to reach the host; shown at every stage. */
+export interface Contact {
   hostPhone: string | null;
   reviewUrl: string | null;
 }
@@ -108,4 +112,6 @@ export interface PortalSnapshot {
   house: HouseState | null;
   /** Before check-in the guest only gets the arrival temperature: no live data. */
   arrival: { setpoint: number } | null;
+  /** Guest Wi-Fi, only during the stay. */
+  wifi: Wifi | null;
 }

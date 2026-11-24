@@ -10,10 +10,21 @@ export interface HoldOption {
   until: string;
 }
 
+/** Latest a "keep unlocked" hold may run to: MAX_HOLD_HOURS from now, and never past checkout. */
+export const latestHold = (now: Date, stay: Stay) =>
+  new Date(Math.min(now.getTime() + MAX_HOLD_HOURS * 3600_000, new Date(stay.checkOut).getTime()));
+
+/** Why a hold end time isn't allowed, or null when it is. */
+export function holdProblem(until: Date, now: Date, stay: Stay): string | null {
+  if (until.getTime() <= now.getTime()) return 'That time has already passed';
+  if (until.getTime() > latestHold(now, stay).getTime()) return `Doors can be held unlocked for up to ${MAX_HOLD_HOURS} hours, and not past checkout`;
+  return null;
+}
+
 /** "Keep unlocked" choices that fit the server's rule: future, ≤ MAX_HOLD_HOURS, ≤ checkout. */
 export function holdOptions(now: Date, stay: Stay): HoldOption[] {
   const tz = stay.timeZone;
-  const latest = Math.min(now.getTime() + MAX_HOLD_HOURS * 3600_000, new Date(stay.checkOut).getTime());
+  const latest = latestHold(now, stay).getTime();
   const tonight = zonedInstant(localDate(now, tz), TONIGHT_HOLD_TIME, tz);
   const candidates: Array<[string, Date]> = [
     ['For 1 hour', new Date(now.getTime() + 3600_000)],

@@ -1,6 +1,7 @@
 import { error } from '@sveltejs/kit';
 import { GUIDE_DIR } from '$app/env/private';
 import { requireGuest } from '#lib/server/guest.ts';
+import { requireLiveStay } from '#lib/server/portal.ts';
 import { loadStaticFile } from '#lib/server/static-files.ts';
 import type { RequestHandler } from './$types';
 
@@ -9,7 +10,8 @@ export const trailingSlash = 'ignore';
 
 /** Serve the prebuilt Starlight guide, only to signed-in guests. */
 export const GET: RequestHandler = async (event) => {
-  requireGuest(event);
+  // The guide holds house details (Wi-Fi and the like): only during the stay.
+  requireLiveStay(requireGuest(event));
   const path = event.params.path;
   if (!path.includes('.') && !event.url.pathname.endsWith('/')) {
     return new Response(null, { status: 308, headers: { location: `${event.url.pathname}/` } });

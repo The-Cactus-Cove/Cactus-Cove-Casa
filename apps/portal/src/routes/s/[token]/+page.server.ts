@@ -6,7 +6,7 @@ import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = ({ locals, params }) => {
   if (locals.guest?.token === params.token) redirect(303, '/');
-  return { hostPhone: config().houseInfo.hostPhone };
+  return { hostPhone: config().contact.hostPhone };
 };
 
 export const actions: Actions = {

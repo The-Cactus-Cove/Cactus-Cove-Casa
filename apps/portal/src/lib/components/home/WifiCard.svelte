@@ -1,25 +1,25 @@
 <script lang="ts">
-  import type { HouseInfo } from '#lib/house/types.ts';
+  import type { Contact, Wifi } from '#lib/house/types.ts';
   import Card from '../ui/Card.svelte';
   import Label from '../ui/Label.svelte';
 
-  let { info }: { info: HouseInfo } = $props();
+  let { wifi, contact }: { wifi: Wifi | null; contact: Contact } = $props();
 </script>
 
-<Card label="House info">
+<Card label="Wi-Fi and help">
   <div class="grid">
     <div class="cell">
       <Label>Wi-Fi</Label>
-      {#if info.wifi}
-        <strong>{info.wifi.ssid}</strong>
-        <span class="pw">{info.wifi.password}</span>
+      {#if wifi}
+        <strong>{wifi.ssid}</strong>
+        <span class="pw">{wifi.password}</span>
       {:else}
         <span class="pw">See the house guide</span>
       {/if}
     </div>
     <div class="cell">
       <Label>Need a hand?</Label>
-      {#if info.hostPhone}<a class="strong" href="sms:{info.hostPhone}">Text the host</a>{/if}
+      {#if contact.hostPhone}<a class="strong" href="sms:{contact.hostPhone}">Text the host</a>{/if}
       <a href="/guide/">House guide</a>
     </div>
   </div>

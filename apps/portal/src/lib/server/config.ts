@@ -10,7 +10,7 @@ import {
   WIFI_PASSWORD,
   WIFI_SSID
 } from '$app/env/private';
-import type { HouseInfo } from '#lib/house/types.ts';
+import type { Contact, Wifi } from '#lib/house/types.ts';
 
 /** Runtime configuration. Validated on first use; hooks.server.ts calls this at startup. */
 export interface Config {
@@ -20,7 +20,8 @@ export interface Config {
   sessionSecret: string;
   portalOrigin: string;
   timeZone: string;
-  houseInfo: HouseInfo;
+  wifi: Wifi | null;
+  contact: Contact;
 }
 
 let cached: Config | undefined;
@@ -49,11 +50,8 @@ export function config(): Config {
     sessionSecret: SESSION_SECRET,
     portalOrigin: PORTAL_ORIGIN,
     timeZone: validTimeZone(PROPERTY_TIMEZONE),
-    houseInfo: {
-      wifi: WIFI_SSID ? { ssid: WIFI_SSID, password: WIFI_PASSWORD } : null,
-      hostPhone: HOST_PHONE || null,
-      reviewUrl: REVIEW_URL || null
-    }
+    wifi: WIFI_SSID ? { ssid: WIFI_SSID, password: WIFI_PASSWORD } : null,
+    contact: { hostPhone: HOST_PHONE || null, reviewUrl: REVIEW_URL || null }
   };
   return cached;
 }

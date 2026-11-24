@@ -1,5 +1,6 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
+  import Screen from '#lib/components/app/Screen.svelte';
   import Button from '#lib/components/ui/Button.svelte';
   import Hero from '#lib/components/screens/Hero.svelte';
   import HostLine from '#lib/components/screens/HostLine.svelte';
@@ -13,6 +14,7 @@
   <title>Cactus Cove · Sign in</title>
 </svelte:head>
 
+<Screen>
 <Hero title="Howdy, partner">
   <p class="lead">Your stay at Cactus Cove</p>
 </Hero>
@@ -47,6 +49,7 @@
 </form>
 
 <HostLine lead="Trouble getting in?" phone={data.hostPhone} />
+</Screen>
 
 <style>
   .lead { margin: 0; color: var(--cc-muted); font-size: 16px; }

@@ -45,16 +45,27 @@ export class MockHouse implements HouseBackend {
         return; // state changes when the door finishes moving
       case 'lock': {
         const lock = this.#lock(command.lockId);
-        if (command.locked) {
-          this.#relock(lock);
-        } else {
-          const until = checkHold(command.holdUntil, ctx);
-          lock.locked = false;
-          lock.holdUntil = until?.toISOString() ?? null;
-          this.#later(`lock:${lock.id}`, until ? until.getTime() - Date.now() : AUTO_RELOCK_MS, () => this.#relock(lock));
+        if (command.locked) this.#relock(lock);
+        else this.#unlock(lock, checkHold(command.holdUntil, ctx));
+        break;
+      }
+      case 'all-locks': {
+        const until = command.locked ? null : checkHold(command.holdUntil, ctx);
+        for (const lock of s.locks) {
+          if (command.locked) this.#relock(lock);
+          else this.#unlock(lock, until);
         }
         break;
       }
+      case 'lock-up':
+        this.#lockUp();
+        break;
+      case 'tvs-off':
+        this.#tvsOff();
+        break;
+      case 'tvs-lockout':
+        for (const tv of s.tvs) tv.lockout = structuredClone(command.lockout);
+        break;
       case 'thermostat':
         s.thermostat.setpoint = command.setpoint;
         s.thermostat.mode = command.mode;
@@ -123,15 +134,30 @@ export class MockHouse implements HouseBackend {
     this.#listeners.emit();
   }
 
-  /** Lock up, close the garage and switch off every TV. */
-  #secure() {
+  #unlock(lock: LockState, until: Date | null) {
+    lock.locked = false;
+    lock.holdUntil = until?.toISOString() ?? null;
+    this.#later(`lock:${lock.id}`, until ? until.getTime() - Date.now() : AUTO_RELOCK_MS, () => this.#relock(lock));
+  }
+
+  /** Lock every door and close the garage (night-time "Lock up"). */
+  #lockUp() {
     for (const lock of this.#state.locks) this.#relock(lock);
     this.#setGarage(false);
+  }
+
+  #tvsOff() {
     for (const tv of this.#state.tvs) {
       this.#cancel(`sleep:${tv.id}`);
       tv.on = false;
       tv.sleep = { kind: 'off' };
     }
+  }
+
+  /** Lock up and switch off every TV (Heading out, checkout). */
+  #secure() {
+    this.#lockUp();
+    this.#tvsOff();
   }
 
   #later(key: string, ms: number, fn: () => void) {

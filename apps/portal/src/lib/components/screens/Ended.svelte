@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type { HouseInfo, Stay } from '#lib/house/types.ts';
+  import type { Contact, Stay } from '#lib/house/types.ts';
   import Icon from '../ui/Icon.svelte';
   import HostLine from './HostLine.svelte';
 
-  let { stay, info }: { stay: Stay; info: HouseInfo } = $props();
+  let { stay, contact }: { stay: Stay; contact: Contact } = $props();
 </script>
 
 <div class="ended">
@@ -11,8 +11,8 @@
   <h1>Happy trails, {stay.guestName}</h1>
   <p>You’re checked out. The door, garage, thermostat and TV controls are now switched off for this link.</p>
   <div class="rule" aria-hidden="true"></div>
-  {#if info.reviewUrl}<a class="review" href={info.reviewUrl} target="_blank" rel="noopener">Leave us a review</a>{/if}
-  <HostLine lead="Left something behind?" phone={info.hostPhone} />
+  {#if contact.reviewUrl}<a class="review" href={contact.reviewUrl} target="_blank" rel="noopener">Leave us a review</a>{/if}
+  <HostLine lead="Left something behind?" phone={contact.hostPhone} />
 </div>
 
 <style>
