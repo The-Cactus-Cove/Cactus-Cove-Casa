@@ -1,15 +1,21 @@
-# Local development without NPM:
+# Local development without NPM or Home Assistant:
 #   docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
-# Landing → http://localhost:8080   Portal → http://localhost:3000
+# Landing → http://localhost:8080   Portal → http://localhost:3000 (stay link /s/demo, PIN 1234)
+# Variables come from .env (copy .env.example).
 services:
   landing:
     ports: ["8080:80"]
   portal:
     ports: ["3000:3000"]
     environment:
+      HA_MOCK: ${HA_MOCK:-true}
+      PORTAL_ORIGIN: http://localhost:3000
       ORIGIN: http://localhost:3000
 
 networks:
   proxy:
     name: cactus-cove-dev
+    external: false
+  hass:
+    name: cactus-cove-dev-hass
     external: false

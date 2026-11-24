@@ -1,6 +1,10 @@
-# Cactus Cove websites. NGINX Proxy Manager (separate stack) forwards:
+# Cactus Cove websites. Deployed as a Dockhand Git stack (see README).
+# NGINX Proxy Manager forwards:
 #   cactuscove.casa      → http://cactus-cove-landing:80
 #   stay.cactuscove.casa → http://cactus-cove-portal:3000
+#
+# Settings come from environment variables (Dockhand's stack variables and
+# secrets, or a local .env file), substituted into `environment:` below.
 name: cactus-cove
 
 x-hardening: &hardening
@@ -32,18 +36,29 @@ services:
       dockerfile: docker/portal/Dockerfile
     image: cactus-cove-portal
     container_name: cactus-cove-portal
-    env_file: .env
     environment:
+      HA_URL: ${HA_URL:-http://homeassistant:8123}
+      HA_TOKEN: ${HA_TOKEN:-}
+      HA_MOCK: ${HA_MOCK:-false}
+      SESSION_SECRET: ${SESSION_SECRET:?Set SESSION_SECRET (32+ random characters)}
+      PORTAL_ORIGIN: ${PORTAL_ORIGIN:-https://stay.cactuscove.casa}
+      PROPERTY_TIMEZONE: ${PROPERTY_TIMEZONE:-America/Phoenix}
+      WIFI_SSID: ${WIFI_SSID:-}
+      WIFI_PASSWORD: ${WIFI_PASSWORD:-}
+      HOST_PHONE: ${HOST_PHONE:-}
+      REVIEW_URL: ${REVIEW_URL:-}
+      # SvelteKit / adapter-node
       ORIGIN: ${PORTAL_ORIGIN:-https://stay.cactuscove.casa}
-      # NPM sits in front, so trust its forwarded client IP (used for rate limiting).
+      # NPM sits in front, so trust its forwarded client IP (used for sign-in rate limits).
       ADDRESS_HEADER: X-Forwarded-For
       XFF_DEPTH: 1
-    # Home Assistant runs with network_mode: host; reach it via the host gateway.
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    networks: [proxy]
+    networks: [proxy, hass]
 
 networks:
   proxy:
     name: ${PROXY_NETWORK:-npm_default}
+    external: true
+  # Home Assistant's network; the portal reaches HA by its container name.
+  hass:
+    name: ${HASS_NETWORK:-hass}
     external: true
