@@ -4,6 +4,7 @@ description: The thermostat and arrival temperature
 ---
 
 The house is set to a comfortable temperature before you arrive.
+You can set the target temperature on your stay page before check-in.
 
 ## Change the temperature
 
@@ -15,7 +16,11 @@ Choose between 68° and 80° to keep the house efficient in the desert heat.
 
 ## Leaving for the day
 
-[Optional: tips for being away, such as raising the cooling setpoint a few degrees.]
+There is an optional setting to adjust the thermostat when you leave for the day.
+This can help conserve energy.
+When you're heading back to the cove, you can use your stay page to reset the temperature to your comfort level.
+
+**Note** that this is a fully optional feature.
 
 :::tip[Good to know]
 Closing blinds on the sunny side of the house helps a lot in the afternoon.

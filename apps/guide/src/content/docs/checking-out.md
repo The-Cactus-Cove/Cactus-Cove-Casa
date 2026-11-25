@@ -12,3 +12,8 @@ Load the dishwasher, put the trash in the outside bin, and turn off lights.
 ## Check out on your stay page
 
 Press **Check out**. We lock the doors, close the garage and turn off the TVs, and your access ends. If you forget, it happens automatically at 11:00 AM.
+
+:::tip[Good to know]
+Pressing **Check out** will automatically close the garage door, if opened.
+Please make sure your car is out of the garage before checking out.
+:::

@@ -12,7 +12,7 @@ export interface Photo {
 }
 
 export const site = {
-  name: 'Cactus Cove',
+  name: 'The Cactus Cove',
   location: 'Tucson, Arizona',
   description: 'A keyless desert rental in Tucson, Arizona.',
   email: 'hello@cactuscove.casa',
@@ -25,7 +25,7 @@ export const site = {
   githubUrl: 'https://github.com/The-Cactus-Cove',
 
   hero: {
-    title: 'Kick off your boots at Cactus Cove',
+    title: 'Kick off your boots at The Cactus Cove',
     blurb: "[One or two sentences about the place — the vibe, the view, what's nearby.]",
     photo: { alt: 'Front of house at sunset' } as Photo
   },
