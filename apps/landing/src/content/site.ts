@@ -13,8 +13,8 @@ export interface Photo {
 
 export const site = {
   name: 'Cactus Cove',
-  location: '[City], Arizona',
-  description: 'A keyless desert rental in [City], Arizona.',
+  location: 'Tucson, Arizona',
+  description: 'A keyless desert rental in Tucson, Arizona.',
   email: 'hello@cactuscove.casa',
   portalUrl: 'https://stay.cactuscove.casa',
 
@@ -22,7 +22,7 @@ export const site = {
     airbnb: 'https://airbnb.com', // TODO: real listing URL
     vrbo: 'https://vrbo.com' // TODO: real listing URL
   },
-  githubUrl: 'https://github.com', // TODO: real repository URL
+  githubUrl: 'https://github.com/The-Cactus-Cove',
 
   hero: {
     title: 'Kick off your boots at Cactus Cove',
@@ -32,7 +32,7 @@ export const site = {
 
   facts: [
     { value: '[#]', label: 'Guests' },
-    { value: '[#]', label: 'Bedrooms' },
+    { value: '3', label: 'Bedrooms' },
     { value: '[#]', label: 'Bathrooms' },
     { value: 'Keyless', label: 'Smart lock, garage & thermostat' }
   ],
@@ -54,13 +54,13 @@ export const site = {
       '[A second paragraph — parking, the patio, nearby trails, restaurants.]'
     ],
     amenities: [
-      'Garage parking',
-      'Self check-in',
+      'Garage Parking',
+      'Self Check-in',
       'Fast Wi-Fi',
-      'Full kitchen',
-      'Five smart TVs',
-      '[Pool / hot tub?]',
-      '[Washer & dryer]',
+      'Full Kitchen',
+      'Four Smart TVs',
+      'Pool',
+      'Washer & Dryer',
       '[Patio & grill]'
     ]
   },
@@ -68,7 +68,7 @@ export const site = {
   underTheHood: {
     eyebrow: 'Under the hood',
     title: 'Curious how the place runs itself?',
-    body: "Home Assistant, Z-Wave relays, a keypad and this website — it's all open source."
+    body: "Home Assistant, Z-Wave relays, and this website — it's all open source."
   }
 };
 
