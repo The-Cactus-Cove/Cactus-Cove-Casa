@@ -2,7 +2,7 @@
   import Icon from '../ui/Icon.svelte';
 </script>
 
-<a href="/guide/" class="guide">
+<a href="/guide/" class="guide" target="_blank">
   <span class="icon"><Icon name="book" size={30} stroke={1.8} /></span>
   <span class="text">
     <span class="title">House guide</span>

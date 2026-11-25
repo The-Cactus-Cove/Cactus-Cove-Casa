@@ -20,7 +20,6 @@
     <div class="cell">
       <Label>Need a hand?</Label>
       {#if contact.hostPhone}<a class="strong" href="sms:{contact.hostPhone}">Text the host</a>{/if}
-      <a href="/guide/">House guide</a>
     </div>
   </div>
 </Card>
