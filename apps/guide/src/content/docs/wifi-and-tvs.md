@@ -6,7 +6,7 @@ description: Network, Roku and sleep timers
 Fast Wi-Fi covers the whole house, patio included.
 Average internet speed is 600 Mbps down / 40 up with 55 ms ping.
 
-You can checkout the internet speedtest metrics [here](https://speedtest.cactuscove.casa).
+You can view the internet speedtest metrics [here](https://speedtest.cactuscove.casa).
 
 ## Wi-Fi
 
