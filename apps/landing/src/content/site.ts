@@ -31,10 +31,10 @@ export const site = {
   },
 
   facts: [
-    { value: '[#]', label: 'Guests' },
+    { value: '6', label: 'Guests' },
     { value: '3', label: 'Bedrooms' },
-    { value: '[#]', label: 'Bathrooms' },
-    { value: 'Keyless', label: 'Smart lock, garage & thermostat' }
+    { value: '2', label: 'Bathrooms' },
+    { value: 'Keyless', label: 'Smart lock & garage' }
   ],
 
   photos: [
@@ -58,17 +58,17 @@ export const site = {
       'Self Check-in',
       'Fast Wi-Fi',
       'Full Kitchen',
-      'Four Smart TVs',
+      'Three Smart TVs',
       'Pool',
       'Washer & Dryer',
-      '[Patio & grill]'
+      'Patio & grill'
     ]
   },
 
   underTheHood: {
     eyebrow: 'Under the hood',
     title: 'Curious how the place runs itself?',
-    body: "Home Assistant, Z-Wave relays, and this website — it's all open source."
+    body: "Home Assistant, Z-Wave relays, an e-ink info display, and this website — it's all open source."
   }
 };
 
